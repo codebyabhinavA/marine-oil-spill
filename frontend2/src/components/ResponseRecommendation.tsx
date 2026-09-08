@@ -171,5 +171,5 @@ function SpillPanel({ spill, onClose }: SpillPanelProps) {
   ); 
 } 
  
-export default SpillPanel;   correct code
+export default SpillPanel;   
 
