@@ -1,0 +1,415 @@
+{
+  "scene_id": "demo_scene_01",
+  "scene": {
+    "scene_id": "demo_scene_01",
+    "source": "SYNTHETIC",
+    "width": 512,
+    "height": 512,
+    "bounds": {
+      "min_lon": 72.15,
+      "max_lon": 73.05,
+      "min_lat": 18.45,
+      "max_lat": 19.35
+    },
+    "acquired_at": "2026-09-08T10:50:34Z",
+    "raw_image_path": "demo_scene_01_raw.png",
+    "notes": "Synthetic SAR scene generated for demo/testing (backend.satellite.generate_test_scene).",
+    "processed_image_path": "demo_scene_01_processed.png",
+    "processing": {
+      "speckle_filter": "lee",
+      "lee_window": 5,
+      "db_conversion": true,
+      "normalization": "percentile_clip_2_98"
+    }
+  },
+  "detection": {
+    "scene_id": "demo_scene_01",
+    "detected_at": "2026-09-08T10:50:34Z",
+    "threshold_used": 136.0,
+    "sea_background": {
+      "mean": 149.67,
+      "std": 53.22
+    },
+    "spill_count": 3,
+    "spills": [
+      {
+        "blob_id": "demo_scene_01_blob_3",
+        "area_px": 7790,
+        "confidence": 0.73,
+        "centroid": {
+          "lon": 72.708417,
+          "lat": 18.943618
+        },
+        "polygon": [
+          [
+            72.593836,
+            19.034736
+          ],
+          [
+            72.826321,
+            19.034736
+          ],
+          [
+            72.826321,
+            18.853327
+          ],
+          [
+            72.593836,
+            18.853327
+          ]
+        ]
+      },
+      {
+        "blob_id": "demo_scene_01_blob_5",
+        "area_px": 160,
+        "confidence": 0.331,
+        "centroid": {
+          "lon": 72.334987,
+          "lat": 18.674329
+        },
+        "polygon": [
+          [
+            72.326125,
+            18.687769
+          ],
+          [
+            72.343738,
+            18.687769
+          ],
+          [
+            72.343738,
+            18.659589
+          ],
+          [
+            72.326125,
+            18.659589
+          ]
+        ]
+      },
+      {
+        "blob_id": "demo_scene_01_blob_4",
+        "area_px": 66,
+        "confidence": 0.242,
+        "centroid": {
+          "lon": 72.828883,
+          "lat": 19.014802
+        },
+        "polygon": [
+          [
+            72.821037,
+            19.022407
+          ],
+          [
+            72.836888,
+            19.022407
+          ],
+          [
+            72.836888,
+            19.008317
+          ],
+          [
+            72.821037,
+            19.008317
+          ]
+        ]
+      }
+    ]
+  },
+  "hindcast": {
+    "estimated_origin": {
+      "lon": 72.895503,
+      "lat": 19.160383
+    },
+    "estimated_origin_time_window": {
+      "start": "2026-09-07T14:50:34Z",
+      "end": "2026-09-07T18:50:34Z"
+    },
+    "hindcast_hours": 18.0,
+    "step_hours": 0.5,
+    "model": "reverse_lagrangian_current_plus_3pct_wind",
+    "track": [
+      {
+        "timestamp": "2026-09-08T10:50:34Z",
+        "lon": 72.708417,
+        "lat": 18.943618,
+        "hours_before_detection": 0.0
+      },
+      {
+        "timestamp": "2026-09-08T10:20:34Z",
+        "lon": 72.7128,
+        "lat": 18.95046,
+        "hours_before_detection": 0.5
+      },
+      {
+        "timestamp": "2026-09-08T09:50:34Z",
+        "lon": 72.717441,
+        "lat": 18.957402,
+        "hours_before_detection": 1.0
+      },
+      {
+        "timestamp": "2026-09-08T09:20:34Z",
+        "lon": 72.722339,
+        "lat": 18.964432,
+        "hours_before_detection": 1.5
+      },
+      {
+        "timestamp": "2026-09-08T08:50:34Z",
+        "lon": 72.727488,
+        "lat": 18.97153,
+        "hours_before_detection": 2.0
+      },
+      {
+        "timestamp": "2026-09-08T08:20:34Z",
+        "lon": 72.732876,
+        "lat": 18.978679,
+        "hours_before_detection": 2.5
+      },
+      {
+        "timestamp": "2026-09-08T07:50:34Z",
+        "lon": 72.738492,
+        "lat": 18.985862,
+        "hours_before_detection": 3.0
+      },
+      {
+        "timestamp": "2026-09-08T07:20:34Z",
+        "lon": 72.744318,
+        "lat": 18.993058,
+        "hours_before_detection": 3.5
+      },
+      {
+        "timestamp": "2026-09-08T06:50:34Z",
+        "lon": 72.750335,
+        "lat": 19.00025,
+        "hours_before_detection": 4.0
+      },
+      {
+        "timestamp": "2026-09-08T06:20:34Z",
+        "lon": 72.756515,
+        "lat": 19.007418,
+        "hours_before_detection": 4.5
+      },
+      {
+        "timestamp": "2026-09-08T05:50:34Z",
+        "lon": 72.762836,
+        "lat": 19.014547,
+        "hours_before_detection": 5.0
+      },
+      {
+        "timestamp": "2026-09-08T05:20:34Z",
+        "lon": 72.769265,
+        "lat": 19.021615,
+        "hours_before_detection": 5.5
+      },
+      {
+        "timestamp": "2026-09-08T04:50:34Z",
+        "lon": 72.775775,
+        "lat": 19.028612,
+        "hours_before_detection": 6.0
+      },
+      {
+        "timestamp": "2026-09-08T04:20:34Z",
+        "lon": 72.782332,
+        "lat": 19.03552,
+        "hours_before_detection": 6.5
+      },
+      {
+        "timestamp": "2026-09-08T03:50:34Z",
+        "lon": 72.788907,
+        "lat": 19.042332,
+        "hours_before_detection": 7.0
+      },
+      {
+        "timestamp": "2026-09-08T03:20:34Z",
+        "lon": 72.795465,
+        "lat": 19.049033,
+        "hours_before_detection": 7.5
+      },
+      {
+        "timestamp": "2026-09-08T02:50:34Z",
+        "lon": 72.801975,
+        "lat": 19.055613,
+        "hours_before_detection": 8.0
+      },
+      {
+        "timestamp": "2026-09-08T02:20:34Z",
+        "lon": 72.808404,
+        "lat": 19.062065,
+        "hours_before_detection": 8.5
+      },
+      {
+        "timestamp": "2026-09-08T01:50:34Z",
+        "lon": 72.814725,
+        "lat": 19.068382,
+        "hours_before_detection": 9.0
+      },
+      {
+        "timestamp": "2026-09-08T01:20:34Z",
+        "lon": 72.820911,
+        "lat": 19.074558,
+        "hours_before_detection": 9.5
+      },
+      {
+        "timestamp": "2026-09-08T00:50:34Z",
+        "lon": 72.82694,
+        "lat": 19.080591,
+        "hours_before_detection": 10.0
+      },
+      {
+        "timestamp": "2026-09-08T00:20:34Z",
+        "lon": 72.832791,
+        "lat": 19.086481,
+        "hours_before_detection": 10.5
+      },
+      {
+        "timestamp": "2026-09-07T23:50:34Z",
+        "lon": 72.838447,
+        "lat": 19.092224,
+        "hours_before_detection": 11.0
+      },
+      {
+        "timestamp": "2026-09-07T23:20:34Z",
+        "lon": 72.843889,
+        "lat": 19.097819,
+        "hours_before_detection": 11.5
+      },
+      {
+        "timestamp": "2026-09-07T22:50:34Z",
+        "lon": 72.849112,
+        "lat": 19.103269,
+        "hours_before_detection": 12.0
+      },
+      {
+        "timestamp": "2026-09-07T22:20:34Z",
+        "lon": 72.85411,
+        "lat": 19.10858,
+        "hours_before_detection": 12.5
+      },
+      {
+        "timestamp": "2026-09-07T21:50:34Z",
+        "lon": 72.858878,
+        "lat": 19.113755,
+        "hours_before_detection": 13.0
+      },
+      {
+        "timestamp": "2026-09-07T21:20:34Z",
+        "lon": 72.863417,
+        "lat": 19.118797,
+        "hours_before_detection": 13.5
+      },
+      {
+        "timestamp": "2026-09-07T20:50:34Z",
+        "lon": 72.867734,
+        "lat": 19.123719,
+        "hours_before_detection": 14.0
+      },
+      {
+        "timestamp": "2026-09-07T20:20:34Z",
+        "lon": 72.871833,
+        "lat": 19.128529,
+        "hours_before_detection": 14.5
+      },
+      {
+        "timestamp": "2026-09-07T19:50:34Z",
+        "lon": 72.875725,
+        "lat": 19.133239,
+        "hours_before_detection": 15.0
+      },
+      {
+        "timestamp": "2026-09-07T19:20:34Z",
+        "lon": 72.879423,
+        "lat": 19.137865,
+        "hours_before_detection": 15.5
+      },
+      {
+        "timestamp": "2026-09-07T18:50:34Z",
+        "lon": 72.882939,
+        "lat": 19.142422,
+        "hours_before_detection": 16.0
+      },
+      {
+        "timestamp": "2026-09-07T18:20:34Z",
+        "lon": 72.886289,
+        "lat": 19.146932,
+        "hours_before_detection": 16.5
+      },
+      {
+        "timestamp": "2026-09-07T17:50:34Z",
+        "lon": 72.88949,
+        "lat": 19.151414,
+        "hours_before_detection": 17.0
+      },
+      {
+        "timestamp": "2026-09-07T17:20:34Z",
+        "lon": 72.892557,
+        "lat": 19.15589,
+        "hours_before_detection": 17.5
+      },
+      {
+        "timestamp": "2026-09-07T16:50:34Z",
+        "lon": 72.895503,
+        "lat": 19.160383,
+        "hours_before_detection": 18.0
+      }
+    ],
+    "scene_id": "demo_scene_01",
+    "source_blob_id": "demo_scene_01_blob_3"
+  },
+  "ais_tracking": {
+    "vessels_checked": 10,
+    "radius_km": 40.0,
+    "candidate_count": 2
+  },
+  "attribution": {
+    "scene_id": "demo_scene_01",
+    "weights": {
+      "proximity": 0.5,
+      "vessel_type": 0.25,
+      "speed_anomaly": 0.15,
+      "track_consistency": 0.1
+    },
+    "radius_km": 40.0,
+    "suspect_count": 2,
+    "suspects": [
+      {
+        "mmsi": "410006335",
+        "name": "MV SUSPECT-02",
+        "vessel_type": "Tanker",
+        "flag": "IN",
+        "closest_approach_km": 15.89,
+        "closest_approach_time": "2026-09-07T16:50:34Z",
+        "vessel_position_at_match": {
+          "lon": 72.99243,
+          "lat": 19.270131
+        },
+        "scores": {
+          "proximity": 0.603,
+          "vessel_type": 1.0,
+          "speed_anomaly": 0.001,
+          "track_consistency": 0.081
+        },
+        "final_score": 0.5596,
+        "rank": 1
+      },
+      {
+        "mmsi": "410005543",
+        "name": "MV SUSPECT-01",
+        "vessel_type": "Tanker",
+        "flag": "PA",
+        "closest_approach_km": 35.404,
+        "closest_approach_time": "2026-09-07T16:50:34Z",
+        "vessel_position_at_match": {
+          "lon": 72.679605,
+          "lat": 19.405015
+        },
+        "scores": {
+          "proximity": 0.115,
+          "vessel_type": 1.0,
+          "speed_anomaly": 0.0,
+          "track_consistency": 0.054
+        },
+        "final_score": 0.3129,
+        "rank": 2
+      }
+    ]
+  }
+}

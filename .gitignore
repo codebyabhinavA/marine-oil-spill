@@ -1,0 +1,35 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# --- Node / frontend (if the team upgrades frontend/ to a real app later) ---
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Runtime data ---
+# Every module writes here (generated scenes, processed images, all the
+# intermediate JSON, final reports). It's all regenerable by running the
+# pipeline (see README), so don't commit it — except the sample outputs
+# in outputs/, which we DO keep so a teammate can see real results without
+# running anything first.
+data/runtime/*
+!data/runtime/.gitkeep
+
+# --- Secrets / local config ---
+.env
+.env.local
+*.pem
