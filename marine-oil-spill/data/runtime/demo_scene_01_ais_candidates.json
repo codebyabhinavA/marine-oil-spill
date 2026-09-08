@@ -1,0 +1,250 @@
+{
+  "scene_id": "demo_scene_01",
+  "radius_km": 40.0,
+  "vessels_checked": 10,
+  "candidate_count": 2,
+  "candidates": [
+    {
+      "mmsi": "410000791",
+      "name": "MV SUSPECT-02",
+      "vessel_type": "Tanker",
+      "flag": "MH",
+      "matched": true,
+      "closest_approach_km": 8.862,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 72.978019,
+        "lat": 19.13823
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 11.9,
+      "is_candidate": true
+    },
+    {
+      "mmsi": "410000000",
+      "name": "MV SUSPECT-01",
+      "vessel_type": "Tanker",
+      "flag": "PA",
+      "matched": true,
+      "closest_approach_km": 10.163,
+      "closest_approach_time": "2026-09-07T21:50:24Z",
+      "hours_before_detection": 17.5,
+      "vessel_position_at_match": {
+        "lon": 72.819546,
+        "lat": 19.100354
+      },
+      "drift_position_at_match": {
+        "lon": 72.894685,
+        "lat": 19.157925
+      },
+      "vessel_speed_knots_at_match": 8.9,
+      "is_candidate": true
+    }
+  ],
+  "all_vessels": [
+    {
+      "mmsi": "410000791",
+      "name": "MV SUSPECT-02",
+      "vessel_type": "Tanker",
+      "flag": "MH",
+      "matched": true,
+      "closest_approach_km": 8.862,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 72.978019,
+        "lat": 19.13823
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 11.9,
+      "is_candidate": true
+    },
+    {
+      "mmsi": "410000000",
+      "name": "MV SUSPECT-01",
+      "vessel_type": "Tanker",
+      "flag": "PA",
+      "matched": true,
+      "closest_approach_km": 10.163,
+      "closest_approach_time": "2026-09-07T21:50:24Z",
+      "hours_before_detection": 17.5,
+      "vessel_position_at_match": {
+        "lon": 72.819546,
+        "lat": 19.100354
+      },
+      "drift_position_at_match": {
+        "lon": 72.894685,
+        "lat": 19.157925
+      },
+      "vessel_speed_knots_at_match": 8.9,
+      "is_candidate": true
+    },
+    {
+      "mmsi": "410002375",
+      "name": "MV VESSEL-04",
+      "vessel_type": "Passenger",
+      "flag": "PA",
+      "matched": true,
+      "closest_approach_km": 154.615,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 73.549451,
+        "lat": 17.916803
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 11.8,
+      "is_candidate": false
+    },
+    {
+      "mmsi": "410005543",
+      "name": "MV VESSEL-08",
+      "vessel_type": "Container",
+      "flag": "PA",
+      "matched": true,
+      "closest_approach_km": 177.974,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 72.934143,
+        "lat": 17.562235
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 15.0,
+      "is_candidate": false
+    },
+    {
+      "mmsi": "410001583",
+      "name": "MV VESSEL-03",
+      "vessel_type": "Fishing",
+      "flag": "PA",
+      "matched": true,
+      "closest_approach_km": 181.872,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 73.462433,
+        "lat": 17.617097
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 15.8,
+      "is_candidate": false
+    },
+    {
+      "mmsi": "410004751",
+      "name": "MV VESSEL-07",
+      "vessel_type": "Container",
+      "flag": "PA",
+      "matched": true,
+      "closest_approach_km": 202.307,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 73.054883,
+        "lat": 17.349167
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 16.2,
+      "is_candidate": false
+    },
+    {
+      "mmsi": "410003959",
+      "name": "MV VESSEL-06",
+      "vessel_type": "Tanker",
+      "flag": "MH",
+      "matched": true,
+      "closest_approach_km": 205.886,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 71.681714,
+        "lat": 17.71401
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 9.6,
+      "is_candidate": false
+    },
+    {
+      "mmsi": "410003167",
+      "name": "MV VESSEL-05",
+      "vessel_type": "Passenger",
+      "flag": "PA",
+      "matched": true,
+      "closest_approach_km": 211.043,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 71.008871,
+        "lat": 18.524428
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 10.2,
+      "is_candidate": false
+    },
+    {
+      "mmsi": "410007127",
+      "name": "MV VESSEL-10",
+      "vessel_type": "Tanker",
+      "flag": "IN",
+      "matched": true,
+      "closest_approach_km": 247.015,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 72.181487,
+        "lat": 21.27981
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 14.0,
+      "is_candidate": false
+    },
+    {
+      "mmsi": "410006335",
+      "name": "MV VESSEL-09",
+      "vessel_type": "Bulk Carrier",
+      "flag": "LR",
+      "matched": true,
+      "closest_approach_km": 267.252,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "hours_before_detection": 18.0,
+      "vessel_position_at_match": {
+        "lon": 71.995637,
+        "lat": 16.917171
+      },
+      "drift_position_at_match": {
+        "lon": 72.897632,
+        "lat": 19.162418
+      },
+      "vessel_speed_knots_at_match": 13.8,
+      "is_candidate": false
+    }
+  ]
+}

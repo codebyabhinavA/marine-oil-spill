@@ -1,0 +1,39 @@
+{
+  "scene_id": "demo_scene_01",
+  "detected_at": "2026-09-08T15:20:24Z",
+  "threshold_used": 136.0,
+  "sea_background": {
+    "mean": 158.15,
+    "std": 60.22
+  },
+  "spill_count": 1,
+  "spills": [
+    {
+      "blob_id": "demo_scene_01_blob_1",
+      "area_px": 3993,
+      "confidence": 0.662,
+      "centroid": {
+        "lon": 72.710543,
+        "lat": 18.945653
+      },
+      "polygon": [
+        [
+          72.625538,
+          19.015362
+        ],
+        [
+          72.799902,
+          19.015362
+        ],
+        [
+          72.799902,
+          18.874462
+        ],
+        [
+          72.625538,
+          18.874462
+        ]
+      ]
+    }
+  ]
+}

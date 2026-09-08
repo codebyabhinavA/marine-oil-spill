@@ -1,0 +1,22 @@
+{
+  "scene_id": "demo_scene_01",
+  "source": "SYNTHETIC",
+  "width": 512,
+  "height": 512,
+  "bounds": {
+    "min_lon": 72.15,
+    "max_lon": 73.05,
+    "min_lat": 18.45,
+    "max_lat": 19.35
+  },
+  "acquired_at": "2026-09-08T15:20:24Z",
+  "raw_image_path": "demo_scene_01_raw.png",
+  "notes": "Synthetic SAR scene generated for demo/testing (backend.satellite.generate_test_scene).",
+  "processed_image_path": "demo_scene_01_processed.png",
+  "processing": {
+    "speckle_filter": "lee",
+    "lee_window": 5,
+    "db_conversion": true,
+    "normalization": "percentile_clip_2_98"
+  }
+}

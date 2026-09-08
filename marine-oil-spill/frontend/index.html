@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Marine Oil Spill Attribution — SIH26143</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#081019;
+    --panel:#0e1b28;
+    --panel-alt:#132738;
+    --line:#1f3547;
+    --text:#e7eef3;
+    --text-dim:#84a0b5;
+    --accent:#2fd9c4;
+    --accent-dim:#1a5c53;
+    --warn:#f0a93a;
+    --danger:#e2574c;
+    --good:#55d18c;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    font-size:14px;
+    display:flex;
+    flex-direction:column;
+  }
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+  /* ---------- header ---------- */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 20px;
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 8px var(--accent);
+    flex-shrink:0;
+  }
+  .brand .dot.offline{background:var(--danger);box-shadow:0 0 8px var(--danger);}
+  .brand h1{
+    font-size:16px;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.2px;
+  }
+  .brand .sub{
+    color:var(--text-dim);
+    font-size:12px;
+    margin-top:2px;
+  }
+  .controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .controls input[type=text]{
+    background:var(--panel-alt);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:7px 9px;
+    border-radius:var(--radius);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    width:150px;
+  }
+  .controls label.chk{
+    display:flex;align-items:center;gap:6px;
+    color:var(--text-dim);
+    font-size:12.5px;
+    user-select:none;
+  }
+  button.run{
+    background:var(--accent);
+    color:#04211d;
+    border:none;
+    font-weight:600;
+    font-size:13px;
+    padding:9px 16px;
+    border-radius:var(--radius);
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  button.run:hover{background:#4fe6d2;}
+  button.run:disabled{background:var(--accent-dim);color:var(--text-dim);cursor:progress;}
+
+  /* ---------- layout ---------- */
+  .layout{
+    display:flex;
+    flex:1;
+    min-height:0;
+  }
+  @media (max-width:880px){
+    .layout{flex-direction:column;}
+  }
+
+  .map-col{
+    position:relative;
+    flex:1.65;
+    min-height:340px;
+    border-right:1px solid var(--line);
+  }
+  #map{width:100%;height:100%;background:var(--bg);}
+
+  .sweep{
+    position:absolute;inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    display:none;
+    z-index:1000;
+  }
+  .sweep.active{display:block;}
+  .sweep .bar{
+    position:absolute;top:0;bottom:0;width:120px;
+    background:linear-gradient(90deg, transparent, rgba(47,217,196,0.28), transparent);
+    animation:sweepmove 1.6s linear infinite;
+  }
+  @keyframes sweepmove{
+    from{left:-120px;}
+    to{left:100%;}
+  }
+  .sweep .msg{
+    position:absolute;bottom:16px;left:16px;
+    background:rgba(8,16,25,0.85);
+    border:1px solid var(--line);
+    padding:8px 12px;
+    border-radius:var(--radius);
+    font-size:12.5px;
+    color:var(--text-dim);
+  }
+
+  .panel{
+    flex:1;
+    overflow-y:auto;
+    padding:18px 20px 40px;
+    background:var(--panel);
+  }
+  .panel::-webkit-scrollbar{width:8px;}
+  .panel::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px;}
+
+  .empty-state{
+    color:var(--text-dim);
+    font-size:13px;
+    line-height:1.6;
+    padding-top:6px;
+  }
+  .empty-state code{
+    background:var(--panel-alt);
+    padding:1px 5px;
+    border-radius:2px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  section.block{margin-bottom:26px;}
+  .block h2{
+    display:flex;align-items:center;gap:8px;
+    font-size:13px;
+    font-weight:600;
+    margin:0 0 10px;
+  }
+  .block h2::before{
+    content:"";
+    width:3px;height:14px;
+    background:var(--accent);
+    display:inline-block;
+    border-radius:1px;
+  }
+
+  table.kv{width:100%;border-collapse:collapse;}
+  table.kv td{
+    padding:4px 0;
+    font-size:12.5px;
+    vertical-align:top;
+  }
+  table.kv td.k{color:var(--text-dim);width:42%;}
+  table.kv td.v{font-family:'IBM Plex Mono',monospace;color:var(--text);text-align:right;}
+
+  .stat-row{display:flex;gap:10px;margin-bottom:4px;}
+  .stat{
+    flex:1;
+    background:var(--panel-alt);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:10px 12px;
+  }
+  .stat .n{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;}
+  .stat .l{color:var(--text-dim);font-size:11px;margin-top:2px;}
+
+  .suspect{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:10px 12px;
+    margin-bottom:8px;
+    background:var(--panel-alt);
+  }
+  .suspect.rank1{border-color:var(--warn);}
+  .suspect .top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:6px;
+  }
+  .suspect .name{font-weight:600;font-size:13px;}
+  .suspect .rank1 .name{color:var(--warn);}
+  .suspect .meta{color:var(--text-dim);font-size:11.5px;font-family:'IBM Plex Mono',monospace;}
+  .suspect .score-row{display:flex;align-items:center;gap:8px;}
+  .scorebar{
+    flex:1;height:6px;background:#0a1620;border-radius:3px;overflow:hidden;
+  }
+  .scorebar > i{
+    display:block;height:100%;background:var(--accent);
+  }
+  .rank1 .scorebar > i{background:var(--warn);}
+  .score-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text);width:38px;text-align:right;}
+  .subscores{
+    display:flex;gap:10px;margin-top:7px;flex-wrap:wrap;
+  }
+  .subscores span{
+    font-size:10.5px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;
+  }
+
+  .imgpanel{
+    display:flex;gap:8px;margin-top:8px;
+  }
+  .imgpanel .cell{flex:1;text-align:center;}
+  .imgpanel img{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    display:block;
+    background:#000;
+  }
+  .imgpanel .cap{color:var(--text-dim);font-size:10.5px;margin-top:4px;font-family:'IBM Plex Mono',monospace;}
+
+  .errbox{
+    border:1px solid var(--danger);
+    background:rgba(226,87,76,0.08);
+    color:#f3b6b0;
+    padding:12px 14px;
+    border-radius:var(--radius);
+    font-size:12.5px;
+    line-height:1.6;
+  }
+
+  footer{
+    padding:9px 20px;
+    border-top:1px solid var(--line);
+    color:var(--text-dim);
+    font-size:11px;
+    background:var(--panel);
+  }
+
+  .legend{
+    position:absolute;bottom:10px;right:10px;z-index:1000;
+    background:rgba(14,27,40,0.9);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:8px 10px;
+    font-size:11px;
+    color:var(--text-dim);
+    display:flex;flex-direction:column;gap:5px;
+  }
+  .legend .row{display:flex;align-items:center;gap:6px;}
+  .legend .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="dot offline" id="statusDot"></span>
+    <div>
+      <h1>Marine Oil Spill Attribution</h1>
+      <div class="sub">SIH26143 · NTRO — Satellite–AIS Correlation Console</div>
+    </div>
+  </div>
+  <div class="controls">
+    <input type="text" id="sceneId" value="demo_scene_01" title="Scene ID" />
+    <label class="chk"><input type="checkbox" id="freshSeed" checked/> fresh random pass</label>
+    <button class="run" id="runBtn">Run analysis</button>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="map-col">
+    <div id="map"></div>
+    <div class="sweep" id="sweep">
+      <div class="bar"></div>
+      <div class="msg" id="sweepMsg">Requesting satellite pass…</div>
+    </div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:var(--danger)"></span> Detected slick</div>
+      <div class="row"><span class="sw" style="background:var(--accent)"></span> Drift hindcast</div>
+      <div class="row"><span class="sw" style="background:var(--warn)"></span> Top suspect vessel</div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel">
+    <div class="empty-state">
+      Press <strong style="color:var(--text)">Run analysis</strong> to pull the latest scene through the
+      pipeline: SAR preprocessing → spill detection → drift hindcast → AIS correlation → suspect ranking.
+      <br/><br/>
+      This demo runs entirely on synthetic data, so it works with no external accounts. If the backend
+      isn't running yet, start it first:
+      <br/><br/>
+      <code>uvicorn backend.main:app --reload --port 8000</code>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Synthetic demo data — SAR scene, AIS traffic and drift model are generated for testing, not live feeds.
+  See docs/API_CONTRACT.md for the real integration points.
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const API_BASE = (location.protocol === 'file:') ? 'http://localhost:8000' : '';
+
+const map = L.map('map', { zoomControl: true }).setView([18.9, 72.6], 9);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  maxZoom: 18
+}).addTo(map);
+
+let layerGroup = L.layerGroup().addTo(map);
+
+const statusDot = document.getElementById('statusDot');
+const runBtn = document.getElementById('runBtn');
+const panel = document.getElementById('panel');
+const sweep = document.getElementById('sweep');
+const sweepMsg = document.getElementById('sweepMsg');
+
+const SWEEP_MESSAGES = [
+  'Requesting satellite pass…',
+  'Filtering SAR speckle…',
+  'Segmenting candidate slicks…',
+  'Backtracking drift path…',
+  'Correlating AIS traffic…',
+  'Scoring suspect vessels…'
+];
+
+function pingHealth(){
+  fetch(API_BASE + '/api/health').then(r => {
+    statusDot.classList.toggle('offline', !r.ok);
+  }).catch(() => statusDot.classList.add('offline'));
+}
+pingHealth();
+
+function fmtKm(km){ return km.toFixed(2) + ' km'; }
+function fmtPct(x){ return Math.round(x * 100) + '%'; }
+
+function renderError(msg){
+  panel.innerHTML = `<div class="errbox">
+    <strong>Analysis failed.</strong><br/>${msg}<br/><br/>
+    Make sure the backend is running: <span class="mono">uvicorn backend.main:app --reload --port 8000</span>
+  </div>`;
+}
+
+function renderReport(report){
+  layerGroup.clearLayers();
+  const scene = report.scene;
+  const det = report.detection;
+  const hind = report.hindcast;
+  const attr = report.attribution;
+  const b = scene.bounds;
+
+  map.fitBounds([[b.min_lat, b.min_lon],[b.max_lat, b.max_lon]]);
+
+  // spill polygons
+  det.spills.forEach((s, i) => {
+    const latlngs = s.polygon.map(([lon, lat]) => [lat, lon]);
+    L.polygon(latlngs, {
+      color: 'var(--danger)'.startsWith('var') ? '#e2574c' : '#e2574c',
+      weight: 1.5,
+      fillOpacity: 0.15 + 0.25 * s.confidence,
+      opacity: 0.8
+    }).bindPopup(`<b>${s.blob_id}</b><br/>confidence ${fmtPct(s.confidence)}<br/>area ${s.area_px}px`)
+      .addTo(layerGroup);
+  });
+
+  // hindcast track
+  const trackLatLng = hind.track.map(p => [p.lat, p.lon]);
+  L.polyline(trackLatLng, { color:'#2fd9c4', weight:2, dashArray:'6 5', opacity:0.9 }).addTo(layerGroup);
+
+  L.circleMarker(trackLatLng[0], { radius:6, color:'#e2574c', fillColor:'#e2574c', fillOpacity:0.9 })
+    .bindPopup('Detected spill position').addTo(layerGroup);
+  L.circleMarker(trackLatLng[trackLatLng.length-1], { radius:6, color:'#f0a93a', fillColor:'#f0a93a', fillOpacity:0.9 })
+    .bindPopup(`Estimated origin<br/>${hind.estimated_origin_time_window.start} → ${hind.estimated_origin_time_window.end}`)
+    .addTo(layerGroup);
+
+  // vessel candidates
+  attr.suspects.forEach(v => {
+    const c = v.vessel_position_at_match;
+    const color = v.rank === 1 ? '#f0a93a' : '#84a0b5';
+    L.circleMarker([c.lat, c.lon], { radius: v.rank===1?7:5, color, fillColor:color, fillOpacity:0.85, weight:1 })
+      .bindPopup(`<b>${v.name}</b><br/>${v.vessel_type} · ${v.flag}<br/>MMSI ${v.mmsi}<br/>
+        closest approach ${fmtKm(v.closest_approach_km)}<br/>score ${v.final_score.toFixed(3)}`)
+      .addTo(layerGroup);
+  });
+
+  // ---- side panel ----
+  const topSpill = det.spills[0];
+  const html = [];
+
+  html.push(`<section class="block"><h2>Scene</h2><table class="kv">
+    <tr><td class="k">Scene ID</td><td class="v">${scene.scene_id}</td></tr>
+    <tr><td class="k">Source</td><td class="v">${scene.source}</td></tr>
+    <tr><td class="k">Acquired</td><td class="v">${scene.acquired_at}</td></tr>
+    <tr><td class="k">Size</td><td class="v">${scene.width}×${scene.height}px</td></tr>
+  </table></section>`);
+
+  html.push(`<section class="block"><h2>Detection</h2>
+    <div class="stat-row">
+      <div class="stat"><div class="n">${det.spill_count}</div><div class="l">candidate blob(s)</div></div>
+      <div class="stat"><div class="n">${topSpill ? fmtPct(topSpill.confidence) : '—'}</div><div class="l">top confidence</div></div>
+    </div>
+    ${topSpill ? `<table class="kv">
+      <tr><td class="k">Top blob</td><td class="v">${topSpill.blob_id}</td></tr>
+      <tr><td class="k">Centroid</td><td class="v">${topSpill.centroid.lat.toFixed(4)}, ${topSpill.centroid.lon.toFixed(4)}</td></tr>
+      <tr><td class="k">Area</td><td class="v">${topSpill.area_px} px</td></tr>
+    </table>` : ''}
+  </section>`);
+
+  html.push(`<section class="block"><h2>Drift hindcast</h2><table class="kv">
+    <tr><td class="k">Estimated origin</td><td class="v">${hind.estimated_origin.lat.toFixed(4)}, ${hind.estimated_origin.lon.toFixed(4)}</td></tr>
+    <tr><td class="k">Origin time window</td><td class="v">${hind.estimated_origin_time_window.start.slice(11,16)}–${hind.estimated_origin_time_window.end.slice(11,16)} UTC</td></tr>
+    <tr><td class="k">Hindcast span</td><td class="v">${hind.hindcast_hours} h</td></tr>
+    <tr><td class="k">Model</td><td class="v" style="font-size:10.5px">${hind.model}</td></tr>
+  </table></section>`);
+
+  html.push(`<section class="block"><h2>AIS correlation</h2>
+    <div class="stat-row">
+      <div class="stat"><div class="n">${report.ais_tracking.vessels_checked}</div><div class="l">vessels in range</div></div>
+      <div class="stat"><div class="n">${report.ais_tracking.candidate_count}</div><div class="l">shortlisted</div></div>
+    </div>
+  </section>`);
+
+  const suspectsHtml = attr.suspects.length
+    ? attr.suspects.map(v => `
+      <div class="suspect ${v.rank===1?'rank1':''}">
+        <div class="top">
+          <span class="name">#${v.rank} ${v.name}</span>
+          <span class="meta">${v.vessel_type} · ${v.flag}</span>
+        </div>
+        <div class="meta" style="margin-bottom:6px">MMSI ${v.mmsi} · closest approach ${fmtKm(v.closest_approach_km)}</div>
+        <div class="score-row">
+          <div class="scorebar"><i style="width:${fmtPct(v.final_score)}"></i></div>
+          <span class="score-num">${fmtPct(v.final_score)}</span>
+        </div>
+        <div class="subscores">
+          <span>proximity ${fmtPct(v.scores.proximity)}</span>
+          <span>vessel type ${fmtPct(v.scores.vessel_type)}</span>
+          <span>speed anomaly ${fmtPct(v.scores.speed_anomaly)}</span>
+          <span>track consistency ${fmtPct(v.scores.track_consistency)}</span>
+        </div>
+      </div>`).join('')
+    : `<div class="empty-state">No vessel passed close enough to the drift path to be shortlisted.</div>`;
+
+  html.push(`<section class="block"><h2>Suspect ranking</h2>${suspectsHtml}</section>`);
+
+  html.push(`<section class="block"><h2>SAR imagery</h2>
+    <div class="imgpanel">
+      <div class="cell">
+        <img src="${API_BASE}/data/${scene.scene_id}_raw.png" alt="raw SAR"/>
+        <div class="cap">raw</div>
+      </div>
+      <div class="cell">
+        <img src="${API_BASE}/data/${scene.scene_id}_processed.png" alt="processed SAR"/>
+        <div class="cap">denoised + normalized</div>
+      </div>
+    </div>
+  </section>`);
+
+  panel.innerHTML = html.join('');
+}
+
+let sweepInterval;
+function startSweep(){
+  sweep.classList.add('active');
+  let i = 0;
+  sweepMsg.textContent = SWEEP_MESSAGES[0];
+  sweepInterval = setInterval(() => {
+    i = (i + 1) % SWEEP_MESSAGES.length;
+    sweepMsg.textContent = SWEEP_MESSAGES[i];
+  }, 900);
+}
+function stopSweep(){
+  sweep.classList.remove('active');
+  clearInterval(sweepInterval);
+}
+
+async function runAnalysis(){
+  runBtn.disabled = true;
+  runBtn.textContent = 'Analyzing…';
+  startSweep();
+  const sceneId = document.getElementById('sceneId').value.trim() || 'demo_scene_01';
+  const fresh = document.getElementById('freshSeed').checked;
+
+  const body = {
+    scene_id: sceneId,
+    seed: fresh ? null : 42,
+    ais_seed: fresh ? null : 7,
+    num_vessels: 10,
+    regenerate_scene: true
+  };
+
+  try{
+    const res = await fetch(API_BASE + '/api/analyze', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    if(!res.ok){
+      const err = await res.json().catch(()=>({detail: res.statusText}));
+      throw new Error(err.detail || res.statusText);
+    }
+    const report = await res.json();
+    statusDot.classList.remove('offline');
+    renderReport(report);
+  }catch(e){
+    statusDot.classList.add('offline');
+    renderError(e.message || String(e));
+  }finally{
+    stopSweep();
+    runBtn.disabled = false;
+    runBtn.textContent = 'Run analysis';
+  }
+}
+
+runBtn.addEventListener('click', runAnalysis);
+</script>
+</body>
+</html>

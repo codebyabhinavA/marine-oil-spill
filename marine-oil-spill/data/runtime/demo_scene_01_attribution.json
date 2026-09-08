@@ -1,0 +1,53 @@
+{
+  "scene_id": "demo_scene_01",
+  "weights": {
+    "proximity": 0.5,
+    "vessel_type": 0.25,
+    "speed_anomaly": 0.15,
+    "track_consistency": 0.1
+  },
+  "radius_km": 40.0,
+  "suspect_count": 2,
+  "suspects": [
+    {
+      "mmsi": "410000791",
+      "name": "MV SUSPECT-02",
+      "vessel_type": "Tanker",
+      "flag": "MH",
+      "closest_approach_km": 8.862,
+      "closest_approach_time": "2026-09-07T21:20:24Z",
+      "vessel_position_at_match": {
+        "lon": 72.978019,
+        "lat": 19.13823
+      },
+      "scores": {
+        "proximity": 0.778,
+        "vessel_type": 1.0,
+        "speed_anomaly": 0.0,
+        "track_consistency": 0.108
+      },
+      "final_score": 0.65,
+      "rank": 1
+    },
+    {
+      "mmsi": "410000000",
+      "name": "MV SUSPECT-01",
+      "vessel_type": "Tanker",
+      "flag": "PA",
+      "closest_approach_km": 10.163,
+      "closest_approach_time": "2026-09-07T21:50:24Z",
+      "vessel_position_at_match": {
+        "lon": 72.819546,
+        "lat": 19.100354
+      },
+      "scores": {
+        "proximity": 0.746,
+        "vessel_type": 1.0,
+        "speed_anomaly": 0.057,
+        "track_consistency": 0.162
+      },
+      "final_score": 0.6477,
+      "rank": 2
+    }
+  ]
+}
